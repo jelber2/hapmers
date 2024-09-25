@@ -1,3 +1,4 @@
+![logo](https://github.com/jelber2/hapmers/blob/master/hapmers.svg)
 # hapmers manuscript code
 
 sbatch script for basecalling WGS_HG002_EZ1_25kb data
