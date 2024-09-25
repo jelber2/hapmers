@@ -413,7 +413,7 @@ minimap2 --eqx --secondary=no -t 248 -Y -c -ax lr:hq hg002v1.0.1.paternal.fasta 
 
 This is the Julia Script for getting readmers and hapmers
 
-`/msc/home/jelber43/WGS_HG002_EZ1_25kb/phase-switching.jl`
+`/msc/home/jelber43/WGS_HG002_EZ1_25kb/phase-switching-0mers.jl`
 
 ```julia
 using BioSequences
@@ -614,7 +614,8 @@ function phase_switches(maternal_paf_file::String,
 
     switches = DataFrame(read_id=Vector{String}(undef, nrow(pafs)),
                          maternal_hapmers_matching=Vector{UInt64}(undef, nrow(pafs)),
-                         paternal_hapmers_matching=Vector{UInt64}(undef, nrow(pafs)))
+                         paternal_hapmers_matching=Vector{UInt64}(undef, nrow(pafs)),
+                         ZeroMers=Vector{UInt64}(undef, nrow(pafs)))
 
     counter = Atomic{Int}(0)
 
@@ -671,7 +672,7 @@ function phase_switches(maternal_paf_file::String,
         nanopore_vs_maternal_hapmers = intersect(maternal_hapmers, nanopore_kmers)
 
         lock(switches_lock)
-        switches[i, :] = [pafs.query_id[i], length(nanopore_vs_maternal_hapmers), length(nanopore_vs_paternal_hapmers)]
+        switches[i, :] = [pafs.query_id[i], length(nanopore_vs_maternal_hapmers), length(nanopore_vs_paternal_hapmers), length(maternal_hapmers)]
         unlock(switches_lock)
         atomic_add!(counter, 1)
         print("\rProcessed $(counter[]) records for hapmer analysis.")
@@ -924,7 +925,7 @@ fgrep -f sup_herro_br_pg_dechat_DataFrameNew.txt WGS_HG002_EZ1_25kb_dechatNew_ag
 
 Actually calculate phase-switching for SUP read alignments
 
-`/msc/home/jelber43/WGS_HG002_EZ1_25kb/SUP-phase-switching3.sbatch`
+`/msc/home/jelber43/WGS_HG002_EZ1_25kb/SUP-phase-switching3-0mers.sbatch`
 
 ```bash
 #!/bin/bash
@@ -939,21 +940,21 @@ Actually calculate phase-switching for SUP read alignments
 cd /msc/home/jelber43/WGS_HG002_EZ1_25kb
 
 time julia --threads 48 \
-phase-switching.jl \
+phase-switching-0mers.jl \
 -m WGS_HG002_EZ1_25kb_SUPNew_against_hg002v1.0.1.maternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -p WGS_HG002_EZ1_25kb_SUPNew_against_hg002v1.0.1.paternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -n WGS_HG002_EZ1_25kb_SUPNew.same_reads.fasta \
 -i hg002v1.0.1.maternal.fasta \
 -j hg002v1.0.1.paternal.fasta \
 -k 15 \
--o WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads.txt
+-o WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads_0mers.txt
 ```
 
 
 
 Actually calculate phase-switching for Herro read alignments
 
-`/msc/home/jelber43/WGS_HG002_EZ1_25kb/herro-phase-switching3.sbatch`
+`/msc/home/jelber43/WGS_HG002_EZ1_25kb/herro-phase-switching3-0mers.sbatch`
 ```bash
 #!/bin/bash
 
@@ -967,21 +968,21 @@ Actually calculate phase-switching for Herro read alignments
 cd /msc/home/jelber43/WGS_HG002_EZ1_25kb
 
 time julia --threads 48 \
-phase-switching.jl \
+phase-switching-0mers.jl \
 -m WGS_HG002_EZ1_25kb_herroNew_against_hg002v1.0.1.maternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -p WGS_HG002_EZ1_25kb_herroNew_against_hg002v1.0.1.paternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -n WGS_HG002_EZ1_25kb.herroNew.same_reads.fasta \
 -i hg002v1.0.1.maternal.fasta \
 -j hg002v1.0.1.paternal.fasta \
 -k 15 \
--o WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads.txt
+-o WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads_0mers.txt
 ```
 
 
 
 Actually calculate phase-switching for DeChat read alignments
 
-`/msc/home/jelber43/WGS_HG002_EZ1_25kb/dechat-phase-switching3.sbatch`
+`/msc/home/jelber43/WGS_HG002_EZ1_25kb/dechat-phase-switching3-0mers.sbatch`
 ```bash
 #!/bin/bash
 
@@ -995,21 +996,21 @@ Actually calculate phase-switching for DeChat read alignments
 cd /msc/home/jelber43/WGS_HG002_EZ1_25kb
 
 time julia --threads 48 \
-phase-switching.jl \
+phase-switching-0mers.jl \
 -m WGS_HG002_EZ1_25kb_dechatNew_against_hg002v1.0.1.maternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -p WGS_HG002_EZ1_25kb_dechatNew_against_hg002v1.0.1.paternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -n WGS_HG002_EZ1_25kb.herro.brk19.pg_asm1x.dechat.same_reads.fasta \
 -i hg002v1.0.1.maternal.fasta \
 -j hg002v1.0.1.paternal.fasta \
 -k 15 \
--o WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads.txt
+-o WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads_0mers.txt
 ```
 
 
 
 Actually calculate phase-switching for Brutal Rewrite read alignments
 
-`/msc/home/jelber43/WGS_HG002_EZ1_25kb/br-phase-switching3.sbatch`
+`/msc/home/jelber43/WGS_HG002_EZ1_25kb/br-phase-switching3-0mers.sbatch`
 ```bash
 #!/bin/bash
 
@@ -1023,21 +1024,21 @@ Actually calculate phase-switching for Brutal Rewrite read alignments
 cd /msc/home/jelber43/WGS_HG002_EZ1_25kb
 
 time julia --threads 48 \
-phase-switching.jl \
+phase-switching-0mers.jl \
 -m WGS_HG002_EZ1_25kb_brNew_against_hg002v1.0.1.maternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -p WGS_HG002_EZ1_25kb_brNew_against_hg002v1.0.1.paternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -n WGS_HG002_EZ1_25kb.brNew.same_reads.fasta \
 -i hg002v1.0.1.maternal.fasta \
 -j hg002v1.0.1.paternal.fasta \
 -k 15 \
--o WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads.txt
+-o WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads_0mers.txt
 ```
 
 
 
 Actually calculate phase-switching for Peregrine_2021 read alignments
 
-`/msc/home/jelber43/WGS_HG002_EZ1_25kb/pg-phase-switching3.sbatch`
+`/msc/home/jelber43/WGS_HG002_EZ1_25kb/pg-phase-switching3-0mers.sbatch`
 ```bash
 #!/bin/bash
 
@@ -1051,14 +1052,14 @@ Actually calculate phase-switching for Peregrine_2021 read alignments
 cd /msc/home/jelber43/WGS_HG002_EZ1_25kb
 
 time julia --threads 48 \
-phase-switching.jl \
+phase-switching-0mers.jl \
 -m WGS_HG002_EZ1_25kb_pgNew_against_hg002v1.0.1.maternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -p WGS_HG002_EZ1_25kb_pgNew_against_hg002v1.0.1.paternal.fasta.mapQ60.primary.cols1345689.unique.paf4 \
 -n WGS_HG002_EZ1_25kb.herro.brk19.pg_asm1x.same_reads.fasta \
 -i hg002v1.0.1.maternal.fasta \
 -j hg002v1.0.1.paternal.fasta \
 -k 15 \
--o WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads.txt
+-o WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads_0mers.txt
 ```
 
 
@@ -1066,15 +1067,15 @@ phase-switching.jl \
 get matching same_reads_ids again
 
 ```bash
-comm -12 <(cut -f 1 WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads.txt|sort)  \
-<(comm -12 <(comm -12 <(cut -f 1 WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads.txt|sort) <(cut -f 1 WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads.txt|sort)) \
-         <(comm -12 <(cut -f 1 WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads.txt|sort) <(cut -f 1 WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads.txt|sort))) > Newsame_reads_ids2.txt
+comm -12 <(cut -f 1 WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads_0mers.txt|sort)  \
+<(comm -12 <(comm -12 <(cut -f 1 WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads_0mers.txt|sort) <(cut -f 1 WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads_0mers.txt|sort)) \
+         <(comm -12 <(cut -f 1 WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads_0mers.txt|sort) <(cut -f 1 WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads_0mers.txt|sort))) > Newsame_reads_ids2_0mers.txt
 
-fgrep -f Newsame_reads_ids2.txt WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads.txt > WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads2.txt
-fgrep -f Newsame_reads_ids2.txt WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads.txt > WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads2.txt
-fgrep -f Newsame_reads_ids2.txt WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads.txt > WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads2.txt
-fgrep -f Newsame_reads_ids2.txt WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads.txt > WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads2.txt
-fgrep -f Newsame_reads_ids2.txt WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads.txt > WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads2.txt
+fgrep -f Newsame_reads_ids2_0mers.txt WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads_0mers.txt > WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads2_0mers.txt
+fgrep -f Newsame_reads_ids2_0mers.txt WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads_0mers.txt > WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads2_0mers.txt
+fgrep -f Newsame_reads_ids2_0mers.txt WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads_0mers.txt > WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads2_0mers.txt
+fgrep -f Newsame_reads_ids2_0mers.txt WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads_0mers.txt > WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads2_0mers.txt
+fgrep -f Newsame_reads_ids2_0mers.txt WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads_0mers.txt > WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads2_0mers.txt
 
 On the MUW Cluster
 
@@ -1092,96 +1093,146 @@ using CSV
 using DataFrames
 using Plots
 
-test = CSV.read("WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads2.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64])
+test = CSV.read("WGS_HG002_EZ1_25kb_SUPNew.kmer_matches.same_reads2_0mers.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64,Int64,Int64])
 test2 = test
 test2.maternal_hapmers_percent = test2.maternal_hapmers_matching ./ (test2.paternal_hapmers_matching .+ test2.maternal_hapmers_matching) .* 100
 test2.paternal_hapmers_percent = test2.paternal_hapmers_matching ./ (test2.paternal_hapmers_matching .+ test2.maternal_hapmers_matching) .* 100
 test2 = filter(row -> all(x -> !(x isa Number && isnan(x)), row), test2)
+count = nrow(filter(row -> row.maternal_hapmers == 0 && row.paternal_hapmers == 0 && row.maternal_hapmers_matching == 0 && row.paternal_hapmers_matching == 0, test))
+
+nrow(test)
+nrow(test2)
+nrow(test)-nrow(test2)
+count
+nrow(test)-nrow(test2)-count
 
 # test
 # 1145743 reads with mapping quality 60
 
 # test2
-# 1009418 reads with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
-# 136325 reads with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+# 1009418 reads (88.10160742854201  %) with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
+#  136325 reads (11.898392571457997 %) with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+#  128842 reads (11.245279264197992 %) with no hapmers, reads in homozygous regions
+#    7483 reads (0.6531133072600051 %) with presumably readmers as errors
 
-
-test3 = CSV.read("WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads2.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64])
+test3 = CSV.read("WGS_HG002_EZ1_25kb_herroNew.kmer_matches.same_reads2_0mers.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64,Int64,Int64])
 test4 = test3
 test4.maternal_hapmers_percent = test4.maternal_hapmers_matching ./ (test4.paternal_hapmers_matching .+ test4.maternal_hapmers_matching) .* 100
 test4.paternal_hapmers_percent = test4.paternal_hapmers_matching ./ (test4.paternal_hapmers_matching .+ test4.maternal_hapmers_matching) .* 100
 test4 = filter(row -> all(x -> !(x isa Number && isnan(x)), row), test4)
+count2 = nrow(filter(row -> row.maternal_hapmers == 0 && row.paternal_hapmers == 0 && row.maternal_hapmers_matching == 0 && row.paternal_hapmers_matching == 0, test3))
+
+nrow(test3)
+nrow(test4)
+nrow(test3)-nrow(test4)
+count2
+nrow(test3)-nrow(test4)-count2
 
 
 # test3
 # 1145743 reads with mapping quality 60
 
 # test4
-# 1009411 reads with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
-# 136332 reads with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+# 1009411 reads (88.10099647128544   %)  with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
+#  136332 reads (11.899003528714555  %) with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+#  134100 reads (11.70419544348078   %) with no hapmers, reads in homozygous regions
+#    2232 reads (0.19480808523377406 %) with presumably readmers as errors
 
-test5 = CSV.read("WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads2.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64])
+
+test5 = CSV.read("WGS_HG002_EZ1_25kb_brNew.kmer_matches.same_reads2_0mers.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64,Int64,Int64])
 test6 = test5
 test6.maternal_hapmers_percent = test6.maternal_hapmers_matching ./ (test6.paternal_hapmers_matching .+ test6.maternal_hapmers_matching) .* 100
 test6.paternal_hapmers_percent = test6.paternal_hapmers_matching ./ (test6.paternal_hapmers_matching .+ test6.maternal_hapmers_matching) .* 100
 test6 = filter(row -> all(x -> !(x isa Number && isnan(x)), row), test6)
+count3 = nrow(filter(row -> row.maternal_hapmers == 0 && row.paternal_hapmers == 0 && row.maternal_hapmers_matching == 0 && row.paternal_hapmers_matching == 0, test5))
+
+nrow(test5)
+nrow(test6)
+nrow(test5)-nrow(test6)
+count3
+nrow(test5)-nrow(test6)-count3
+
 
 # test5
 # 1145743 reads with mapping quality 60
 
 # test6
-# 1009411 reads with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
-# 136332 reads with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+# 1009411 reads (88.10099647128544   %)  with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
+#  136332 reads (11.899003528714555  %) with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+#  134100 reads (11.70419544348078   %) with no hapmers, reads in homozygous regions
+#    2232 reads (0.19480808523377406 %) with presumably readmers as errors
 
 
-test7 = CSV.read("WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads2.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64])
+test7 = CSV.read("WGS_HG002_EZ1_25kb_pgNew.kmer_matches.same_reads2_0mers.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64,Int64,Int64])
 test8 = test7
 test8.maternal_hapmers_percent = test8.maternal_hapmers_matching ./ (test8.paternal_hapmers_matching .+ test8.maternal_hapmers_matching) .* 100
 test8.paternal_hapmers_percent = test8.paternal_hapmers_matching ./ (test8.paternal_hapmers_matching .+ test8.maternal_hapmers_matching) .* 100
 test8 = filter(row -> all(x -> !(x isa Number && isnan(x)), row), test8)
+count4 = nrow(filter(row -> row.maternal_hapmers == 0 && row.paternal_hapmers == 0 && row.maternal_hapmers_matching == 0 && row.paternal_hapmers_matching == 0, test7))
+
+
+
+nrow(test7)
+nrow(test8)
+nrow(test7)-nrow(test8)
+count4
+nrow(test7)-nrow(test8)-count4
 
 
 # test7
 # 1145743 reads with mapping quality 60
 
 # test8
-# 1007110 reads with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
-# 138633 reads with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+# 1007110 reads (87.90016609309418   %)  with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
+#  138633 reads (12.099833906905824  %) with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+#  136549 reads (11.917943203667838  %) with no hapmers, reads in homozygous regions
+#    2084 reads (0.18189070323798618 %) with presumably readmers as errors
 
 
-test9 = CSV.read("WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads2.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64])
+test9 = CSV.read("WGS_HG002_EZ1_25kb_dechatNew.kmer_matches.same_reads2_0mers.txt", DataFrame; delim="\t",header=true, types=[String,Int64,Int64,Int64,Int64])
 test10 = test9
 test10.maternal_hapmers_percent = test10.maternal_hapmers_matching ./ (test10.paternal_hapmers_matching .+ test10.maternal_hapmers_matching) .* 100
 test10.paternal_hapmers_percent = test10.paternal_hapmers_matching ./ (test10.paternal_hapmers_matching .+ test10.maternal_hapmers_matching) .* 100
 test10 = filter(row -> all(x -> !(x isa Number && isnan(x)), row), test10)
+count5 = nrow(filter(row -> row.maternal_hapmers == 0 && row.paternal_hapmers == 0 && row.maternal_hapmers_matching == 0 && row.paternal_hapmers_matching == 0, test9))
 
 
-# test9
+nrow(test9)
+nrow(test10)
+nrow(test9)-nrow(test10)
+count5
+nrow(test9)-nrow(test10)-count5
+
+
+# test7
 # 1145743 reads with mapping quality 60
 
-# test10
-# 1007150 reads with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
-# 138593 reads with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+# test8
+# 1007150 reads (87.90365727741736   %)  with hapmers matching for at least one haplotype (are these reads with heterozygous variants)
+#  138593 reads (12.096342722582638  %) with no-matching hapmers (are these reads in homozygous regions?) for either haplotype
+#  136549 reads (11.917943203667838  %) with no hapmers, reads in homozygous regions
+#    2044 reads (0.17839951891480026 %) with presumably readmers as errors
 
-hist1d = histogram(abs.(test2.maternal_hapmers_percent - test2.paternal_hapmers_percent), bins=100, title="SUP", xlabel="", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
+
+hist1d = histogram(abs.(test2.maternal_hapmers_percent - test2.paternal_hapmers_percent), bins=100, title="RAW", xlabel="", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
 hist2d = histogram(abs.(test4.maternal_hapmers_percent - test4.paternal_hapmers_percent), bins=100, title="Herro", xlabel="", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
 hist3d = histogram(abs.(test6.maternal_hapmers_percent - test6.paternal_hapmers_percent), bins=100, title="Brutal Rewrite", xlabel="", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
-hist4d = histogram(abs.(test8.maternal_hapmers_percent - test8.paternal_hapmers_percent), bins=100, title="Peregrine_2021", xlabel="", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
-hist5d = histogram(abs.(test10.maternal_hapmers_percent - test10.paternal_hapmers_percent), bins=100, title="Dechat", xlabel="                                     Absolute value of difference in percentage matching hapmers", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
+hist4d = histogram(abs.(test8.maternal_hapmers_percent - test8.paternal_hapmers_percent), bins=100, title="Peregrine 2021", xlabel="", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
+hist5d = histogram(abs.(test10.maternal_hapmers_percent - test10.paternal_hapmers_percent), bins=100, title="DeChat", xlabel="                                     Absolute value of difference in percentage matching hapmers", ylabel="Num. Reads", legend=false, ylim=(0, 6000))
 
 combined_plot3 = plot(hist1d, hist2d, hist3d, hist4d, hist5d, layout=(3, 2))
 
-savefig(combined_plot3, "hapmers-histogram-Newsame_reads.svg")
+savefig(combined_plot3, "hapmers-histogram-Newsame_reads2.svg")
 
-hist1a = histogram(abs.(test2.maternal_hapmers_percent - test2.paternal_hapmers_percent), bins=100, title="SUP", xlabel="", ylabel="Num. Reads", legend=false)
+hist1a = histogram(abs.(test2.maternal_hapmers_percent - test2.paternal_hapmers_percent), bins=100, title="RAW", xlabel="", ylabel="Num. Reads", legend=false)
 hist2a = histogram(abs.(test4.maternal_hapmers_percent - test4.paternal_hapmers_percent), bins=100, title="Herro", xlabel="", ylabel="Num. Reads", legend=false)
 hist3a = histogram(abs.(test6.maternal_hapmers_percent - test6.paternal_hapmers_percent), bins=100, title="Brutal Rewrite", xlabel="", ylabel="Num. Reads", legend=false)
-hist4a = histogram(abs.(test8.maternal_hapmers_percent - test8.paternal_hapmers_percent), bins=100, title="Peregrine_2021", xlabel="", ylabel="Num. Reads", legend=false)
-hist5a = histogram(abs.(test10.maternal_hapmers_percent - test10.paternal_hapmers_percent), bins=100, title="Dechat", xlabel="                                     Absolute value of difference in percentage matching hapmers", ylabel="Num. Reads", legend=false)
+hist4a = histogram(abs.(test8.maternal_hapmers_percent - test8.paternal_hapmers_percent), bins=100, title="Peregrine 2021", xlabel="", ylabel="Num. Reads", legend=false)
+hist5a = histogram(abs.(test10.maternal_hapmers_percent - test10.paternal_hapmers_percent), bins=100, title="DeChat", xlabel="                                     Absolute value of difference in percentage matching hapmers", ylabel="Num. Reads", legend=false)
 
 combined_plot4 = plot(hist1a, hist2a, hist3a, hist4a, hist5a, layout=(3, 2))
 
-savefig(combined_plot4, "hapmers-histogram-Newsame_reads-full.svg")
+savefig(combined_plot4, "hapmers-histogram-Newsame_reads-full2.svg")
 ```
 
 
