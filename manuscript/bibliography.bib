@@ -1,0 +1,158 @@
+@article{pevzner1989tuple,
+  title={l-tuple DNA sequencing: computer analysis},
+  author={Pevzner, Pavel A},
+  journal={Journal of Biomolecular structure and dynamics},
+  volume={7},
+  number={1},
+  pages={63--73},
+  year={1989},
+  publisher={Taylor \& Francis}
+}
+
+@article {Li2024.05.09.593079,
+	author = {Li, Yichen and Chen, Enlian and Xu, Jialu and Zhang, Wenhai and Zeng, Xiangxiang and Liu, Yuansheng and Luo, Xiao},
+	title = {Repeat and haplotype aware error correction in nanopore sequencing reads with DeChat},
+	elocation-id = {2024.05.09.593079},
+	year = {2024},
+	doi = {10.1101/2024.05.09.593079},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Error self-correction is a pivotal first step in the analysis of long-read sequencing data. However, most existing methods for this purpose are primarily tailored for noisy sequencing data with error rates exceeding 5\%, often collapsing true variants in repeats and haplotypes. Alternatively, some methods are heavily optimized for PacBio HiFi reads, leaving a gap in methods specifically designed for Nanopore R10 reads basecalled with high accuracy or super accuracy models, which typically have error rates below 2\%. Here, we introduce DeChat, a novel approach specifically designed for Nanopore R10 reads. DeChat enables repeat- and haplotype-aware error correction, leveraging the strengths of both de Bruijn graphs and variant-aware multiple sequence alignment to create a synergistic approach. This approach avoids read overcorrection, ensuring that variants in repeats and haplotypes are preserved while sequencing errors are accurately corrected. Benchmarking experiments reveal that reads corrected using DeChat exhibit substantially fewer errors, ranging from several times to two orders of magnitude lower, compared to the current state-of-the-art approaches. Furthermore, the application of DeChat for error correction significantly improves genome assembly across various aspects. DeChat is implemented as a highly efficient, standalone, and user-friendly software and is publicly available at https://github.com/LuoGroup2023/DeChat.Competing Interest StatementThe authors have declared no competing interest.},
+	URL = {https://www.biorxiv.org/content/early/2024/05/10/2024.05.09.593079},
+	eprint = {https://www.biorxiv.org/content/early/2024/05/10/2024.05.09.593079.full.pdf},
+	journal = {bioRxiv}
+}
+
+@article {Peregrine,
+	author = {Chin, Chen-Shan and Khalak, Asif},
+	title = {Human Genome Assembly in 100 Minutes},
+	elocation-id = {705616},
+	year = {2019},
+	doi = {10.1101/705616},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {De novo genome assembly provides comprehensive, unbiased genomic information and makes it possible to gain insight into new DNA sequences not present in reference genomes. Many de novo human genomes have been published in the last few years, leveraging a combination of inexpensive short-read and single-molecule long-read technologies. As long-read DNA sequencers become more prevalent, the computational burden of generating assemblies persists as a critical factor. The most common approach to long-read assembly, using an overlap-layout-consensus (OLC) paradigm, requires all-to-all read comparisons, which quadratically scales in computational complexity with the number of reads. We assert that recently achievements in sequencing technology (i.e. with accuracy ~99\% and read length ~10-15k) enables a fundamentally better strategy for OLC that is effectively linear rather than quadratic. Our genome assembly implementation, Peregrine uses sparse hierarchical minimizers (SHIMMER) to index reads thereby avoiding the need for an all-to-all read comparison step. Peregrine can assemble 30x human PacBio CCS read datasets in less than 30 CPU hours and around 100 wall-clock minutes to a high contiguity assembly (N50 \&gt; 20Mb). The continued advance of sequencing technologies coupled with the Peregrine assembler enables routine generation of human de novo assemblies. This will allow for population scale measurements of more comprehensive genomic variations -- beyond SNPs and small indels -- as well as novel applications requiring rapid access to de novo assemblies.},
+	URL = {https://www.biorxiv.org/content/early/2019/07/17/705616},
+	eprint = {https://www.biorxiv.org/content/early/2019/07/17/705616.full.pdf},
+	journal = {bioRxiv}
+}
+
+@article{Peregrine_2021,
+  author = {Chin, Chen-Shan},
+  title = {Peregrine-2021: A faster and minimum genome assembler},
+  year = {2022},
+  publisher = {GitHub},
+  journal = {GitHub repository. https://github.com/cschin/peregrine-2021},
+  howpublished = {\url{https://github.com/cschin/peregrine-2021}}
+}
+
+@article{best,
+  author = {Liu, Daniel and Belyaeva, Anastasiya and Shafin, Kishwar and Chang, Pi-Chuan and Carroll, Andrew and Cook, Daniel},
+  title = {Best: A Tool for Characterizing Sequencing Errors},
+  year = {2024},
+  publisher = {GitHub},
+  journal = {GitHub repository. https://github.com/google/best},
+  howpublished = {\url{https://github.com/google/best}}
+}
+
+@article{ONT2024,
+  author = {ONT},
+  title = {Dorado},
+  year = {2024},
+  publisher = {GitHub},
+  journal = {GitHub repository. https://github.com/nanoporetech/dorado},
+  howpublished = {\url{https://github.com/nanoporetech/dorado}}
+}
+
+@article{HG002,
+  author = {T2T_Consortium},
+  title = {Telomere-to-telomere consortium HG002 "Q100" project},
+  year = {2024},
+  publisher = {GitHub},
+  journal = {GitHub repository. https://github.com/marbl/HG002},
+  howpublished = {\url{https://github.com/marbl/HG002}}
+}
+
+@article {Stanojevic,
+	author = {Stanojevi{\'c}, Dominik and Lin, Dehui and Florez de Sessions, Paola and {\v S}iki{\'c}, Mile},
+	title = {Telomere-to-telomere phased genome assembly using error-corrected Simplex nanopore reads},
+	elocation-id = {2024.05.18.594796},
+	year = {2024},
+	doi = {10.1101/2024.05.18.594796},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Telomere-to-telomere phased assemblies are standard expectations. To achieve these for diploid and even polyploid genomes, the contemporary approach involves at least two long-read sequencing technologies: high-accuracy HiFi or Duplex nanopore long reads and ultra-long noisy nanopore reads. Using two different technologies increases the cost and the required amount of genomic DNA. Here, we show that comparable results are possible using error correction of nanopore Simplex ultra-long reads and then assembling them using existing state-of-the-art de novo assembly methods. We have developed the HERRO model based on deep learning, which corrects Simplex nanopore reads longer than 10kbp and with a quality value higher than 10. Taking into account informative positions that vary between haplotypes or segments in duplications, HERRO achieves an increase of accuracy of up to 100-fold. Combing HERRO with Verkko assembler, we achieve high contiguity on human genomes by reconstructing many chromosomes telomere-to-telomere, including chromosomes X and Y. We show that HERRO generalises well to other species and it supports both R9.4.1. and R10.4.1 nanopore Simplex reads. These results offer an opportunity to decrease the genome sequencing cost and apply corrected reads to more complex genomes with different levels of ploidy or even aneuploidy.Competing Interest StatementOxford Nanopore Technologies and AI Singapore jointly funded the AI-driven De Novo Diploid Assembler project, which resulted in this manuscript. M.S. has received travel funds to speak at events hosted by Oxford Nanopore Technologies. P. F. S. is an employee of Oxford Nanopore Technologies.},
+	URL = {https://www.biorxiv.org/content/early/2024/05/21/2024.05.18.594796},
+	eprint = {https://www.biorxiv.org/content/early/2024/05/21/2024.05.18.594796.full.pdf},
+	journal = {bioRxiv}
+}
+
+@article{Li1,
+    author = {Li, Heng},
+    title = "{Minimap2: pairwise alignment for nucleotide sequences}",
+    journal = {Bioinformatics},
+    volume = {34},
+    number = {18},
+    pages = {3094-3100},
+    year = {2018},
+    month = {05},
+    abstract = "{Recent advances in sequencing technologies promise ultra-long reads of ∼100 kb in average, full-length mRNA or cDNA reads in high throughput and genomic contigs over 100 Mb in length. Existing alignment programs are unable or inefficient to process such data at scale, which presses for the development of new alignment algorithms.Minimap2 is a general-purpose alignment program to map DNA or long mRNA sequences against a large reference database. It works with accurate short reads of ≥100 bp in length, ≥1 kb genomic reads at error rate ∼15\\%, full-length noisy Direct RNA or cDNA reads and assembly contigs or closely related full chromosomes of hundreds of megabases in length. Minimap2 does split-read alignment, employs concave gap cost for long insertions and deletions and introduces new heuristics to reduce spurious alignments. It is 3–4 times as fast as mainstream short-read mappers at comparable accuracy, and is ≥30 times faster than long-read genomic or cDNA mappers at higher accuracy, surpassing most aligners specialized in one type of alignment.https://github.com/lh3/minimap2Supplementary data are available at Bioinformatics online.}",
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/bty191},
+    url = {https://doi.org/10.1093/bioinformatics/bty191},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/34/18/3094/48919122/bioinformatics\_34\_18\_3094.pdf},
+}
+
+@article{samtools,
+    author = {Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard and 1000 Genome Project Data Processing Subgroup},
+    title = "{The Sequence Alignment/Map format and SAMtools}",
+    journal = {Bioinformatics},
+    volume = {25},
+    number = {16},
+    pages = {2078-2079},
+    year = {2009},
+    month = {06},
+    abstract = "{Summary: The Sequence Alignment/Map (SAM) format is a generic alignment format for storing read alignments against reference sequences, supporting short and long reads (up to 128 Mbp) produced by different sequencing platforms. It is flexible in style, compact in size, efficient in random access and is the format in which alignments from the 1000 Genomes Project are released. SAMtools implements various utilities for post-processing alignments in the SAM format, such as indexing, variant caller and alignment viewer, and thus provides universal tools for processing read alignments.Availability:  http://samtools.sourceforge.netContact:  rd@sanger.ac.uk}",
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btp352},
+    url = {https://doi.org/10.1093/bioinformatics/btp352},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/25/16/2078/48994296/bioinformatics\_25\_16\_2078.pdf},
+}
+
+@article{Shen,
+author = {Shen, Wei and Sipos, Botond and Zhao, Liuyang},
+title = {SeqKit2: A Swiss army knife for sequence and alignment processing},
+journal = {iMeta},
+pages = {e191},
+year = {2024},
+keywords = {performance optimization, real-time analysis, sequence processing, usability, user-friendly},
+doi = {https://doi.org/10.1002/imt2.191},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/imt2.191},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/imt2.191},
+abstract = {Abstract In the era of ubiquitous high-throughput sequencing studies, there is a growing need for analysis tools that are not just performant but also comprehensive and user-friendly enough to cater to both novice and advanced users. This article introduces SeqKit2, the next iteration of the widely used sequence analysis tool SeqKit, featuring expanded functionality, performance optimizations, and support for additional compression methods. Retaining a pragmatic subcommand architecture, SeqKit2 represents substantial enhancement through the inclusion of 19 additional subcommands, expanding its overall repertoire to a total of 38 in eight categories. The new subcommands add functionality such as amplicon processing and robust, error-tolerant parsing of sequence records. In addition, three subcommands designed for real-time analysis are added for periodic monitoring of properties of FASTQ and Binary Alignment/Map alignment records and real-time streaming from multiple sequence files. The performance of SeqKit2 is benchmarked against the old version of SeqKit, Bioawk, Seqtk, and SeqFu tools. SeqKit2 consistently outperforms its predecessor, albeit with marginally higher memory usage, while maintaining competitive runtimes against other tools. With its broad functionality, proven usability, and ongoing development driven by user feedback, we hope that bioinformaticians will find SeqKit2 useful as a “Swiss army knife” of sequence and alignment processing—equally adept at facilitating ad hoc analyses and seamlessly integrating into larger pipelines.}
+}
+
+@article{Br,
+author = {Marijon, Pierre and Sphor, Philipp and Limaset, Antoine},
+title = {SeqBIM Conference: Correcting Long-Reads with k-mers: A Dream Comes True},
+year = {2020},
+journal = {GitHub repository https://github.com/natir/br and Presentation https://seqbim2020.sciencesconf.org/resource/page/id/4.html},
+}
+
+@article{Bushnell,
+  author = {Bushnell, Brian},
+  title = {BBMap: BBMap short read aligner, and other bioinformatic tools.},
+  year = {2024},
+  publisher = {Source Forge},
+  journal = {Source Forge repository. https://sourceforge.net/projects/bbmap/},
+  howpublished = {\url{https://sourceforge.net/projects/bbmap/}}
+}
+
+@article{julia,
+  title={Julia: A fresh approach to numerical computing},
+  author={Bezanson, Jeff and Edelman, Alan and Karpinski, Stefan and Shah, Viral B},
+  journal={SIAM review},
+  volume={59},
+  number={1},
+  pages={65--98},
+  year={2017},
+  publisher={SIAM},
+  url={https://doi.org/10.1137/141000671}
+}
