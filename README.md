@@ -1318,5 +1318,5 @@ samtools index -@54 WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram
 Convert CRAM back to BAM if desired to get WGS_HG002_EZ1_25kb.pod5.bam from WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram
 
 ```bash
-samtools view -@ 4 -h -T GCF_009914755.1_T2T-CHM13v2.0_genomic.fna -O BAM WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram > WGS_HG002_EZ1_25kb.pod5.converted.bam
+samtools view --keep-tag NM,ms,AS,nn,tp,cm,s1,de,rl,qs,du,ns,ts,mx,st,rn,fn,sm,sd,dx,RG -@ 4 -h -T GCF_009914755.1_T2T-CHM13v2.0_genomic.fna -O BAM WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram > WGS_HG002_EZ1_25kb.pod5.converted.bam
 ```
