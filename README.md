@@ -1,35 +1,11 @@
 ![logo](https://github.com/jelber2/hapmers/blob/main/hapmers.svg)
 # hapmers manuscript code
 
-See this [Zenodo Repository](https://doi.org/10.5281/zenodo.13841954) for the Dorado 0.6.0 unaligned BAM file of SUP accuracy reads that can be used with this README.md to reproduce the analyses for the associated manuscript. The repo has the output of the following basecalling step (i.e., `WGS_HG002_EZ1_25kb.pod5.bam`).
+## See this [Zenodo Repository](https://doi.org/10.5281/zenodo.13841954) for the Dorado 0.6.0 unaligned BAM file of SUP accuracy reads that can be used with this README.md to reproduce the analyses for the associated manuscript. The repo has the output of the following basecalling step (i.e., `WGS_HG002_EZ1_25kb.pod5.bam`).
 
-sbatch script for basecalling WGS_HG002_EZ1_25kb data
+## Note: after downloading `WGS_HG002_EZ1_25kb.pod5.bam`, you can check it's integrity with `md5sum -c <(echo '7fbbbb4ca33b23d7f0eaf00f3a03c2e4 WGS_HG002_EZ1_25kb.pod5.bam')`
 
-`/msc/home/jelber43/WGS_HG002_EZ1_25kb/basecall.sbatch`
-
-```bash
-#!/bin/bash
-
-#SBATCH -c 24
-#SBATCH --mem 200G
-#SBATCH -p gpu
-#SBATCH -n 1
-#SBATCH --gpus-per-task=a100:6
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=jean.elbers@meduniwien.ac.at
-
-cd /msc/home/jelber43/WGS_HG002_EZ1_25kb
-/msc/home/jelber43/git/dorado-0.6.0-linux-x64/bin/dorado basecaller sup ./ > WGS_HG002_EZ1_25kb.pod5.bam
-```
-
-
-```bash
-sbatch basecall.sbatch
-```
-
-
-
-sbatch script for herro-pre WGS_HG002_EZ1_25kb data
+sbatch script for herro-pre WGS_HG002_EZ1_25kb data that uses `WGS_HG002_EZ1_25kb.pod5.bam` as input.
 
 `/msc/home/jelber43/WGS_HG002_EZ1_25kb/herro-pre.sbatch`
 
