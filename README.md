@@ -1297,26 +1297,4 @@ total_alns  primary_alns  identity  identity_qv  gap_compressed_identity  matche
 1281942     1145743       0.980335  17.062956    0.984901                 985.021819       7.253553            2.826602            3.413819            1.954716        4.310809        raw
 ```
 
-Convert WGS_HG002_EZ1_25kb.pod5.bam to cram by aligning to GCF_009914755.1 (T2T-CHM13v2.0_genomic.fna)
-to be able to upload to Zenodo in one piece
-
-```bash
-micromamba activate minimap2.28
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/914/755/GCF_009914755.1_T2T-CHM13v2.0/GCF_009914755.1_T2T-CHM13v2.0_genomic.fna.gz
-
-echo "9e6bf6b586bc8954208d1cc1d5f2fc99  ./GCF_009914755.1_T2T-CHM13v2.0_genomic.fna.gz" > checksum
-md5sum -c checksum
-# ok
-
-pigz -kd GCF_009914755.1_T2T-CHM13v2.0_genomic.fna.gz
-minimap2 -t 54 -Y -y --eqx -ax lr:hq GCF_009914755.1_T2T-CHM13v2.0_genomic.fna.gz <(samtools fastq -@4 -T "*" WGS_HG002_EZ1_25kb.pod5.bam) 2>minimap2.log |samtools sort | samtools view -@8 -h -C -T GCF_009914755.1_T2T-CHM13v2.0_genomic.fna > WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram &
-
-samtools index -@54 WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram
-```
-
-
-Convert CRAM back to BAM if desired to get WGS_HG002_EZ1_25kb.pod5.bam from WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram
-
-```bash
-samtools view --keep-tag NM,ms,AS,nn,tp,cm,s1,de,rl,qs,du,ns,ts,mx,st,rn,fn,sm,sd,dx,RG -@ 4 -h -T GCF_009914755.1_T2T-CHM13v2.0_genomic.fna -O BAM WGS_HG002_EZ1_25kb.pod5.aligned-to-GCF_009914755.1.cram > WGS_HG002_EZ1_25kb.pod5.converted.bam
-```
+See this [Zenodo Repository](https://doi.org/10.5281/zenodo.13841954) for the Dorado 0.6.0 unaligned BAM file of SUP accuracy reads that can be used with this README.md to reproduce the analyses for the associated manuscript.
