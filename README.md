@@ -1,6 +1,8 @@
 ![logo](https://github.com/jelber2/hapmers/blob/main/hapmers.svg)
 # hapmers manuscript code
 
+See this [Zenodo Repository](https://doi.org/10.5281/zenodo.13841954) for the Dorado 0.6.0 unaligned BAM file of SUP accuracy reads that can be used with this README.md to reproduce the analyses for the associated manuscript. The repo has the output of the following basecalling step (i.e., `WGS_HG002_EZ1_25kb.pod5.bam`).
+
 sbatch script for basecalling WGS_HG002_EZ1_25kb data
 
 `/msc/home/jelber43/WGS_HG002_EZ1_25kb/basecall.sbatch`
@@ -1296,5 +1298,3 @@ total_alns  primary_alns  identity  identity_qv  gap_compressed_identity  matche
 1156746     1145743       0.999637  34.396470    0.999770                 999.725438       0.052275            0.033748            0.044347            0.055095        0.177940        herro
 1281942     1145743       0.980335  17.062956    0.984901                 985.021819       7.253553            2.826602            3.413819            1.954716        4.310809        raw
 ```
-
-See this [Zenodo Repository](https://doi.org/10.5281/zenodo.13841954) for the Dorado 0.6.0 unaligned BAM file of SUP accuracy reads that can be used with this README.md to reproduce the analyses for the associated manuscript.
