@@ -1,6 +1,8 @@
 ![logo](https://github.com/jelber2/hapmers/blob/main/hapmers.svg)
 # hapmers manuscript code
 
+## [preprint now on bioRxiv](https://doi.org/10.1101/2024.10.18.619002)
+
 ## See this [Zenodo Repository](https://doi.org/10.5281/zenodo.13841954) for the Dorado 0.6.0 unaligned BAM file of SUP accuracy reads that can be used with this README.md to reproduce the analyses for the associated manuscript. The repo has the output of the following basecalling step (i.e., `WGS_HG002_EZ1_25kb.pod5.bam`).
 
 ## Note: after downloading `WGS_HG002_EZ1_25kb.pod5.bam`, you can check it's integrity with `md5sum -c <(echo '7fbbbb4ca33b23d7f0eaf00f3a03c2e4 WGS_HG002_EZ1_25kb.pod5.bam')`
